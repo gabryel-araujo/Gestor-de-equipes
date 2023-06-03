@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/src/images/logo-branco.png" />
+    <link rel="stylesheet" href="src/css/main.css" />
+    <title>HiFi Equipes</title>
+  </head>
+  <body class="bg-gray-100">
+    <nav class="border-gray-200 px-2 mt-3">
+      <div
+        class="container mx-auto flex flex-wrap items-center justify-between"
+      >
+        <a href="#" class="flex">
+          <img
+            src="public/icone-hifi.png"
+            alt="logo esférico com duas letras H"
+            class="w-10 h-10"
+          />
+          <span
+            class="self-center text-lg font-semibold whitespace-nowrap px-2 font-helvetica"
+            >HiFi Equipes</span
+          >
+        </a>
+        <div class="flex md:order-2">
+          <div class="relative mr-3 md:mr-0 hidden md:block">
+            <div
+              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+            >
+              <svg
+                class="w-5 h-5 text-gray-500"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </div>
+            <input
+              type="text"
+              id="email-adress-icon"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2"
+              placeholder="Search..."
+            />
+          </div>
+          <button
+            data-collapse-toggle="mobile-menu-3"
+            type="button"
+            class="md:hidden text-gray-400 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300 rounded-lg inline-flex items-center justify-center"
+            aria-controls="mobile-menu-3"
+            aria-expanded="false"
+          >
+            <span class="sr-only">Open main menu</span>
+            <svg
+              class="w-6 h-6"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            <svg
+              class="hidden w-6 h-6"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <div
+          class="hidden md:flex justify-between items-center w-full md:w-auto md:order-1"
+          id="mobile-menu-3"
+        >
+          <ul
+            class="flex-col md:flex-row flex md:space-x-8 mt-4 md:mt-0 md:text-sm md:font-medium"
+          >
+            <li>
+              <a
+                href="#"
+                class="md:bg-transparent text-gray-700 block pl-3 pr-4 py-2 md:underline md:p-0 rounded text-xl"
+                aria-current="page"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                href="src/html/clientList.html"
+                class="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:underline md:p-0 text-xl"
+                >Lista de clientes</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="flex h-screen bg-gray-100 p-4">
+      <div class="m-auto">
+        <div>
+          <label
+            class="relative w-full flex justify-center items-center px-5 py-2.5 font-medium tracking-wide text-white capitalize bg-black rounded-md focus:outline-none transition duration-300 transform active:scale-95 ease-in-out"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              enable-background="new 0 0 24 24"
+              height="24px"
+              viewBox="0 0 24 24"
+              width="24px"
+              fill="#FFFFFF"
+            >
+              <g>
+                <rect fill="none" height="24" width="24"></rect>
+              </g>
+              <g>
+                <g>
+                  <path d="M19,13h-6v6h-2v-6H5v-2h6V5h2v6h6V13z"></path>
+                </g>
+              </g>
+            </svg>
+            <span class="pl-2 mx-1">Cadastrar novo cliente</span>
+          </label>
+          <div class="mt-5 bg-white rounded-lg shadow">
+            <div class="flex">
+              <div class="flex-1 py-5 pl-5 overflow-hidden">
+                <svg
+                  class="inline align-text-top"
+                  height="24px"
+                  viewBox="0 0 24 24"
+                  width="24px"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="#000000"
+                >
+                  <g>
+                    <path
+                      d="m4.88889,2.07407l14.22222,0l0,20l-14.22222,0l0,-20z"
+                      fill="none"
+                      id="svg_1"
+                      stroke="null"
+                    ></path>
+                    <path
+                      d="m7.07935,0.05664c-3.87,0 -7,3.13 -7,7c0,5.25 7,13 7,13s7,-7.75 7,-13c0,-3.87 -3.13,-7 -7,-7zm-5,7c0,-2.76 2.24,-5 5,-5s5,2.24 5,5c0,2.88 -2.88,7.19 -5,9.88c-2.08,-2.67 -5,-7.03 -5,-9.88z"
+                      id="svg_2"
+                    ></path>
+                    <circle
+                      cx="7.04807"
+                      cy="6.97256"
+                      r="2.5"
+                      id="svg_3"
+                    ></circle>
+                  </g>
+                </svg>
+                <h1 class="inline text-2xl font-semibold leading-none">
+                  Dados
+                </h1>
+              </div>
+            </div>
+            <div class="px-5 pb-5">
+              <input
+                id="name"
+                type="text"
+                placeholder="Nome completo"
+                class="text-black placeholder-gray-600 w-full px-4 py-2.5 mt-2 transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200 focus:border-blueGray-500 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:shadow-outline focus:ring-2 focus:text-white ring-offset-current ring-offset-2 ring-gray-400"
+              />
+              <input
+                id="address"
+                placeholder="Endereço"
+                class="text-black placeholder-gray-600 w-full px-4 py-2.5 mt-2 text-base transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200 focus:border-blueGray-500 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:shadow-outline focus:ring-2 focus:text-white ring-offset-current ring-offset-2 ring-gray-400"
+              />
+              <div class="flex">
+                <div class="flex-grow pr-2 w-1/6">
+                  <input
+                    id="number"
+                    placeholder="N°"
+                    class="text-black placeholder-gray-600 w-full px-4 py-2.5 mt-2 text-base transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200 focus:border-blueGray-500 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:shadow-outline focus:ring-2 focus:text-white ring-offset-current ring-offset-2 ring-gray-400"
+                  />
+                </div>
+                <div class="flex-grow w-1/2 pr-2">
+                  <input
+                    id="additional"
+                    placeholder="Complemento"
+                    class="text-black placeholder-gray-600 w-full px-4 py-2.5 mt-2 text-base transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200 focus:border-blueGray-500 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:shadow-outline focus:ring-2 focus:text-white ring-offset-current ring-offset-2 ring-gray-400"
+                  />
+                </div>
+                <div class="flex-grow w-1/4 pr-2">
+                  <input
+                    id="neighborhood"
+                    placeholder="Bairro"
+                    class="text-black placeholder-gray-600 w-full px-4 py-2.5 mt-2 text-base transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200 focus:border-blueGray-500 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:shadow-outline focus:ring-2 focus:text-white ring-offset-current ring-offset-2 ring-gray-400"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="mt-4" />
+          <div class="flex flex-row-reverse p-3">
+            <div class="flex-initial pl-3">
+              <button
+                id="save"
+                type="button"
+                onclick="createClient()"
+                class="flex items-center px-5 py-2.5 font-medium tracking-wide text-white capitalize bg-black rounded-md hover:bg-gray-800 focus:outline-none focus:bg-gray-900 transition duration-300 transform active:scale-95 ease-in-out"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 0 24 24"
+                  width="24px"
+                  fill="#FFFFFF"
+                >
+                  <path d="M0 0h24v24H0V0z" fill="none"></path>
+                  <path
+                    d="M5 5v14h14V7.83L16.17 5H5zm7 13c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-8H6V6h9v4z"
+                    opacity=".3"
+                  ></path>
+                  <path
+                    d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm2 16H5V5h11.17L19 7.83V19zm-7-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zM6 6h9v4H6z"
+                  ></path>
+                </svg>
+                <span class="pl-2 mx-1">Save</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Script sources -->
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script src="src/js/script.js" type="module"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+    <script src="https://unpkg.com/@themesberg/flowbite@1.1.1/dist/flowbite.bundle.js"></script>
+  </body>
+</html>

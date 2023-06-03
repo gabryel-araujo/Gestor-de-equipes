@@ -1,0 +1,128 @@
+import { jsPDF } from "jspdf";
+
+//Referencia dados de outra página
+const urlParams = new URLSearchParams(window.location.search);
+const nomeCliente = urlParams.get("nome");
+var inputFile = document.getElementById("formFile");
+//referencia de dados de outra página usando o vite
+var imgData = [];
+
+// Exibir o nome do cliente na página
+const clienteNomeElement = document.getElementById("nomeCliente");
+clienteNomeElement.innerHTML = nomeCliente;
+console.log("nome cliente", nomeCliente);
+
+//Varrer o localStorage
+const localStorageKeys = Object.keys(localStorage);
+const newArray = localStorageKeys.map((key) => {
+  return JSON.parse(localStorage.getItem(key));
+});
+
+//Coletar dados do formulário ou tags que sejam necessárias
+const description = document.getElementById("description");
+const technician = document.getElementById("technician");
+
+//Função para codificar cada imagem do input em base64
+function encodeImage() {
+  console.log(inputFile.files.length);
+  for (var i = 0; i < inputFile.files.length; i++) {
+    var file = inputFile.files[i];
+    var reader = new FileReader();
+    reader.onload = (function (file) {
+      return function (e) {
+        imgData.push(e.target.result);
+        console.log("Resultado", imgData);
+      };
+    })(file);
+    reader.readAsDataURL(file);
+  }
+}
+//Função para coletar dados do cliente
+let clientAddress = "";
+let clientNumber = "";
+let clientAdditional = "";
+let clientNeighborhood = "";
+console.log("newArray", newArray);
+function getClientData(client) {
+  newArray.map((key) => {
+    key.name === client
+      ? ((clientAddress = key.address),
+        (clientNumber = key.number),
+        (clientAdditional = key.additional),
+        (clientNeighborhood = key.neighborhood))
+      : null;
+  });
+}
+
+function generatePDF() {
+  const doc = new jsPDF();
+  const urlImage = "/logo-hifi-preto-menor.png";
+  //formatação e captura da data
+  const data = new Date();
+  const day = String(data.getDate()).padStart(2, "0");
+  const month = String(data.getMonth() + 1).padStart(2, "0"); //Janeiro é 0!
+  const year = String(data.getFullYear());
+  const formatedData = `${day}/${month}/${year}`;
+
+  //aba para criação de funções que serão utilizadas
+  console.log(nomeCliente);
+
+  //Aba de criação e estruturação do pdf
+  //Cabeçalho do PDF
+  doc.addImage(urlImage, "PNG", 10, 10, 50, 10); // x, y, width, height
+  doc.setFont("helvetica", "bold");
+  doc.text(`Relatório de visita técnica`, 70, 17); // x, y
+
+  //Corpo do PDF
+  doc.setFont("helvetica", "normal");
+  doc.line(200, 21, 10, 21); // x1, y1, x2, y2
+  doc.setFontSize(13);
+  doc.setFont("helvetica", "bold");
+  doc.text(`Data: `, 160, 30);
+  doc.setFont("helvetica", "normal");
+  doc.text(`${formatedData}`, 172, 30);
+  doc.setFont("helvetica", "bold");
+  doc.text(`Cliente: `, 10, 30);
+  doc.setFont("helvetica", "normal");
+  doc.text(`${nomeCliente}`, 28, 30);
+
+  doc.line(200, 35, 10, 35); // x1, y1, x2, y2
+  getClientData(nomeCliente);
+  const formatedAddress = `${clientAddress}, ${clientNumber} | ${clientAdditional} - ${clientNeighborhood}`;
+  doc.setFont("helvetica", "bold");
+  doc.text(`Endereço: `, 10, 40);
+  doc.setFont("helvetica", "normal");
+  doc.text(`${formatedAddress}`, 34, 40);
+  doc.setFont("helvetica", "bold");
+  doc.text(`Técnico responsável: `, 10, 48);
+  doc.setFont("helvetica", "normal");
+  doc.text(`${technician.value}`, 58, 48);
+  doc.line(200, 50, 10, 50);
+  doc.setFont("helvetica", "bold");
+  doc.text("Relatório de imagens", 10, 55);
+
+  //Imagens
+  // const meuInput = document.getElementById("formFile");
+  // doc.addImage(imgData, "PNG", 10, 60, 50, 50); // x, y, width, height
+  encodeImage();
+  for (var i = 0; i < imgData.length; i++) {
+    doc.addImage(imgData[i], "PNG", 15 + i * 65, 60, 60, 85); // x, y, width, height
+  }
+
+  //Descrição da visita
+  doc.setFont("helvetica", "bolditalic");
+  doc.text(`Descrição da visita:`, 10, 155);
+  doc.setFont("helvetica", "normal");
+
+  const textoQuebrado = doc.splitTextToSize(description.value, 180);
+
+  textoQuebrado.map((key, index) => {
+    doc.text(key, 15, 160 + index * 5);
+  });
+
+  const pdfData = doc.output("blob");
+  const pdfUrl = URL.createObjectURL(pdfData);
+  window.open(pdfUrl);
+}
+window.generatePDF = generatePDF;
+window.encodeImage = encodeImage;
