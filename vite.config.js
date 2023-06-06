@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from "vite";
 import dns from "dns";
+
 dns.setDefaultResultOrder("verbatim");
 
 export default ({ mode }) => {

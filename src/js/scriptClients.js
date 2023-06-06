@@ -1,9 +1,15 @@
 import { jsPDF } from "jspdf";
+import Swal from "sweetalert2";
+import { Modal, Ripple, initTE } from "tw-elements";
+
+initTE({ Modal, Ripple });
 
 //Referencia dados de outra página
 const urlParams = new URLSearchParams(window.location.search);
 const nomeCliente = urlParams.get("nome");
 var inputFile = document.getElementById("formFile");
+const searchBar = document.getElementById("searchBar");
+const saveCanvas = document.getElementById("saveCanvas");
 //referencia de dados de outra página usando o vite
 var imgData = [];
 
@@ -21,6 +27,76 @@ const newArray = localStorageKeys.map((key) => {
 //Coletar dados do formulário ou tags que sejam necessárias
 const description = document.getElementById("description");
 const technician = document.getElementById("technician");
+
+//Aqui o campo para desenvolver a função de coletar a assinatura do cliente através do canvas
+window.addEventListener("load", () => {
+  const signatureCanvas = document.getElementById("signature");
+  const context = signatureCanvas.getContext("2d");
+
+  let painting = false;
+
+  function startPosition(e) {
+    painting = true;
+    const rect = signatureCanvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    draw(x, y);
+  }
+
+  function finishedPosition() {
+    painting = false;
+    context.beginPath();
+  }
+
+  function handleStart(e) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = signatureCanvas.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    startPosition({ clientX: x, clientY: y });
+  }
+
+  function handleMove(e) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = signatureCanvas.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    draw(x, y);
+  }
+
+  function handleEnd(e) {
+    e.preventDefault();
+    finishedPosition();
+  }
+
+  function draw(x, y) {
+    if (!painting) return;
+    context.lineWidth = 5;
+    context.lineCap = "round";
+
+    context.lineTo(x, y);
+    context.stroke();
+    context.beginPath();
+    context.moveTo(x, y);
+  }
+
+  signatureCanvas.addEventListener("mousedown", startPosition);
+  signatureCanvas.addEventListener("mouseup", finishedPosition);
+  signatureCanvas.addEventListener("mousemove", (e) => {
+    const rect = signatureCanvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    draw(x, y);
+  });
+
+  signatureCanvas.addEventListener("touchstart", handleStart);
+  signatureCanvas.addEventListener("touchmove", handleMove);
+  signatureCanvas.addEventListener("touchend", handleEnd);
+
+  //Função para limpar o canvas
+});
 
 //Função para codificar cada imagem do input em base64
 function encodeImage() {
@@ -126,3 +202,7 @@ function generatePDF() {
 }
 window.generatePDF = generatePDF;
 window.encodeImage = encodeImage;
+
+searchBar.addEventListener("focus", function () {
+  // Swal.fire("Voce clicou", "No botão de pesquisa", "success");
+});
