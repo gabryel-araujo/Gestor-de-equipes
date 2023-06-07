@@ -12,6 +12,7 @@ const searchBar = document.getElementById("searchBar");
 const saveCanvas = document.getElementById("saveCanvas");
 //referencia de dados de outra página usando o vite
 var imgData = [];
+var signatureImg = "";
 
 // Exibir o nome do cliente na página
 const clienteNomeElement = document.getElementById("nomeCliente");
@@ -33,6 +34,9 @@ window.addEventListener("load", () => {
   const signatureCanvas = document.getElementById("signature");
   const context = signatureCanvas.getContext("2d");
 
+  let touchX = 0;
+  let touchY = 0;
+
   let painting = false;
 
   function startPosition(e) {
@@ -51,10 +55,12 @@ window.addEventListener("load", () => {
   function handleStart(e) {
     e.preventDefault();
     const touch = e.touches[0];
+    touchX = touch.clientX;
+    touchY = touch.clientY;
     const rect = signatureCanvas.getBoundingClientRect();
-    const x = touch.clientX - rect.left;
-    const y = touch.clientY - rect.top;
-    startPosition({ clientX: x, clientY: y });
+    const x = touchX - rect.left;
+    const y = touchY - rect.top;
+    startPosition(x, y);
   }
 
   function handleMove(e) {
@@ -63,6 +69,7 @@ window.addEventListener("load", () => {
     const rect = signatureCanvas.getBoundingClientRect();
     const x = touch.clientX - rect.left;
     const y = touch.clientY - rect.top;
+    if (!painting) return;
     draw(x, y);
   }
 
@@ -95,7 +102,11 @@ window.addEventListener("load", () => {
   signatureCanvas.addEventListener("touchmove", handleMove);
   signatureCanvas.addEventListener("touchend", handleEnd);
 
-  //Função para limpar o canvas
+  //Função para salvar a imagem do canvas
+  saveCanvas.addEventListener("click", () => {
+    signatureImg = signatureCanvas.toDataURL("image/png");
+    console.log("imagem do canvas", signatureImg);
+  });
 });
 
 //Função para codificar cada imagem do input em base64
@@ -195,6 +206,11 @@ function generatePDF() {
   textoQuebrado.map((key, index) => {
     doc.text(key, 15, 160 + index * 5);
   });
+
+  //Assinatura do cliente
+
+  doc.text("Assinado por: ", 160, 275);
+  doc.addImage(signatureImg, 150, 280, 60, 10);
 
   const pdfData = doc.output("blob");
   const pdfUrl = URL.createObjectURL(pdfData);
