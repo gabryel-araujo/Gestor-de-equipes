@@ -24,18 +24,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const additional = document.getElementById("additional").value;
     const number = document.getElementById("number").value;
 
-    // localStorage.setItem(
-    //   id,
-    //   JSON.stringify({
-    //     name: name.value,
-    //     address: address.value,
-    //     neighborhood: neighborhood.value,
-    //     additional: additional.value,
-    //     number: number.value,
-    //     id: id,
-    //   })
-    // );
-
     const { data, error } = await supabase.from("cliente").insert([
       {
         nome: name,

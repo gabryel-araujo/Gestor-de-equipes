@@ -5,6 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 initTE({ Modal, Ripple });
 
 var clientData;
+window.encodeImage = encodeImage;
 
 var clientPromise = new Promise(async function (resolve, reject) {
   const SUPABASE_KEY =
@@ -138,7 +139,6 @@ let clientAddress = "";
 let clientNumber = "";
 let clientAdditional = "";
 let clientNeighborhood = "";
-console.log("supabase", cliente);
 function getClientData(client) {
   clientPromise.then((clientData) => {
     clientData.map((key) => {
@@ -226,8 +226,5 @@ function generatePDF() {
 searchBar.addEventListener("focus", function () {
   // Swal.fire("Voce clicou", "No botão de pesquisa", "success");
 });
-
-window.encodeImage = encodeImage;
-// window.generatePDF = generatePDF;
 
 saveButton.addEventListener("click", generatePDF);
