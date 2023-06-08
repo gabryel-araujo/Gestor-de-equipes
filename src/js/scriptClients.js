@@ -1,8 +1,24 @@
 import { jsPDF } from "jspdf";
 import Swal from "sweetalert2";
 import { Modal, Ripple, initTE } from "tw-elements";
-
+import { createClient } from "@supabase/supabase-js";
 initTE({ Modal, Ripple });
+
+var clientData;
+
+var clientPromise = new Promise(async function (resolve, reject) {
+  const SUPABASE_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlbGpvd2J5Ynhqa3Fvb2ZzdmZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODYxNDMwNTksImV4cCI6MjAwMTcxOTA1OX0.97CaBk5mBIg4z13aFLJ0SmkqjJcLby-KYKnTf45S5cA";
+  const SUPABASE_URL = "https://deljowbybxjkqoofsvfk.supabase.co";
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+  let { data: cliente, error } = await supabase.from("cliente").select("*");
+  resolve(cliente);
+  clientData = cliente;
+});
+
+clientPromise.then((clientData) => {
+  console.log(clientData);
+});
 
 //Referencia dados de outra página
 const urlParams = new URLSearchParams(window.location.search);
@@ -10,20 +26,13 @@ const nomeCliente = urlParams.get("nome");
 var inputFile = document.getElementById("formFile");
 const searchBar = document.getElementById("searchBar");
 const saveCanvas = document.getElementById("saveCanvas");
-//referencia de dados de outra página usando o vite
+const saveButton = document.getElementById("save");
 var imgData = [];
 var signatureImg = "";
 
 // Exibir o nome do cliente na página
 const clienteNomeElement = document.getElementById("nomeCliente");
 clienteNomeElement.innerHTML = nomeCliente;
-console.log("nome cliente", nomeCliente);
-
-//Varrer o localStorage
-const localStorageKeys = Object.keys(localStorage);
-const newArray = localStorageKeys.map((key) => {
-  return JSON.parse(localStorage.getItem(key));
-});
 
 //Coletar dados do formulário ou tags que sejam necessárias
 const description = document.getElementById("description");
@@ -105,7 +114,7 @@ window.addEventListener("load", () => {
   //Função para salvar a imagem do canvas
   saveCanvas.addEventListener("click", () => {
     signatureImg = signatureCanvas.toDataURL("image/png");
-    console.log("imagem do canvas", signatureImg);
+    // console.log("imagem do canvas", signatureImg);
   });
 });
 
@@ -129,15 +138,12 @@ let clientAddress = "";
 let clientNumber = "";
 let clientAdditional = "";
 let clientNeighborhood = "";
-console.log("newArray", newArray);
+console.log("supabase", cliente);
 function getClientData(client) {
-  newArray.map((key) => {
-    key.name === client
-      ? ((clientAddress = key.address),
-        (clientNumber = key.number),
-        (clientAdditional = key.additional),
-        (clientNeighborhood = key.neighborhood))
-      : null;
+  clientPromise.then((clientData) => {
+    clientData.map((key) => {
+      key.nome === client ? console.log("key", key) : null;
+    });
   });
 }
 
@@ -152,7 +158,7 @@ function generatePDF() {
   const formatedData = `${day}/${month}/${year}`;
 
   //aba para criação de funções que serão utilizadas
-  console.log(nomeCliente);
+  // console.log(nomeCliente);
 
   //Aba de criação e estruturação do pdf
   //Cabeçalho do PDF
@@ -188,9 +194,7 @@ function generatePDF() {
   doc.setFont("helvetica", "bold");
   doc.text("Relatório de imagens", 10, 55);
 
-  //Imagens
-  // const meuInput = document.getElementById("formFile");
-  // doc.addImage(imgData, "PNG", 10, 60, 50, 50); // x, y, width, height
+  //Imagens adicionadas ao pdf
   encodeImage();
   for (var i = 0; i < imgData.length; i++) {
     doc.addImage(imgData[i], "PNG", 15 + i * 65, 60, 60, 85); // x, y, width, height
@@ -215,10 +219,15 @@ function generatePDF() {
   const pdfData = doc.output("blob");
   const pdfUrl = URL.createObjectURL(pdfData);
   window.open(pdfUrl);
+
+  //fim do pdf
 }
-window.generatePDF = generatePDF;
-window.encodeImage = encodeImage;
 
 searchBar.addEventListener("focus", function () {
   // Swal.fire("Voce clicou", "No botão de pesquisa", "success");
 });
+
+window.encodeImage = encodeImage;
+// window.generatePDF = generatePDF;
+
+saveButton.addEventListener("click", generatePDF);

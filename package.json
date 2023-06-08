@@ -15,6 +15,7 @@
     "vite": "^4.3.9"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.24.0",
     "jspdf": "^2.5.1",
     "sweetalert2": "^11.7.10",
     "tw-elements": "^1.0.0-beta2"
