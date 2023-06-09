@@ -197,7 +197,7 @@ async function generatePDF() {
   //Imagens adicionadas ao pdf
   encodeImage();
   for (var i = 0; i < imgData.length; i++) {
-    doc.addImage(imgData[i], "PNG", 15 + i * 65, 60, 60, 85); // x, y, width, height
+    doc.addImage(imgData[i], "PNG", 15 + i * 65, 60, 30, 45); // x, y, width, height
   }
 
   //Descrição da visita
