@@ -30,6 +30,18 @@ const saveCanvas = document.getElementById("saveCanvas");
 const saveButton = document.getElementById("save");
 var imgData = [];
 var signatureImg = "";
+var formatedAddress = "";
+
+//Função para buscar o endereço do cliente
+async function getAddress() {
+  clientPromise.then((clientData) => {
+    clientData.map((client) => {
+      client.nome === nomeCliente
+        ? (formatedAddress = `${client.rua}, ${client.numero} | ${client.complemento} - ${client.bairro}`)
+        : null;
+    });
+  });
+}
 
 // Exibir o nome do cliente na página
 const clienteNomeElement = document.getElementById("nomeCliente");
@@ -134,20 +146,8 @@ function encodeImage() {
     reader.readAsDataURL(file);
   }
 }
-//Função para coletar dados do cliente
-let clientAddress = "";
-let clientNumber = "";
-let clientAdditional = "";
-let clientNeighborhood = "";
-function getClientData(client) {
-  clientPromise.then((clientData) => {
-    clientData.map((key) => {
-      key.nome === client ? console.log("key", key) : null;
-    });
-  });
-}
 
-function generatePDF() {
+async function generatePDF() {
   const doc = new jsPDF();
   const urlImage = "/logo-hifi-preto-menor.png";
   //formatação e captura da data
@@ -180,12 +180,12 @@ function generatePDF() {
   doc.text(`${nomeCliente}`, 28, 30);
 
   doc.line(200, 35, 10, 35); // x1, y1, x2, y2
-  getClientData(nomeCliente);
-  const formatedAddress = `${clientAddress}, ${clientNumber} | ${clientAdditional} - ${clientNeighborhood}`;
   doc.setFont("helvetica", "bold");
   doc.text(`Endereço: `, 10, 40);
   doc.setFont("helvetica", "normal");
-  doc.text(`${formatedAddress}`, 34, 40);
+  await getAddress();
+  doc.text(formatedAddress, 34, 40);
+
   doc.setFont("helvetica", "bold");
   doc.text(`Técnico responsável: `, 10, 48);
   doc.setFont("helvetica", "normal");
@@ -223,8 +223,8 @@ function generatePDF() {
   //fim do pdf
 }
 
-searchBar.addEventListener("focus", function () {
-  // Swal.fire("Voce clicou", "No botão de pesquisa", "success");
-});
+// searchBar.addEventListener("focus", function () {
+//   // Swal.fire("Voce clicou", "No botão de pesquisa", "success");
+// });
 
 saveButton.addEventListener("click", generatePDF);
