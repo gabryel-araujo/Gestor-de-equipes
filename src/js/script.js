@@ -13,35 +13,48 @@ document.addEventListener("DOMContentLoaded", async () => {
   const saveButton = document.getElementById("save");
   const divClients = document.getElementById("divClient");
 
-  window.regUser = regUser;
+  window.validateFields = validateFields;
   window.mostrarNome = mostrarNome;
 
-  //Cadastro via localStorage
-  async function regUser() {
+  //Cadastro via supabase
+
+  //Verificando campos válidos
+  function validateFields() {
     const name = document.getElementById("name").value;
     const address = document.getElementById("address").value;
     const neighborhood = document.getElementById("neighborhood").value;
     const additional = document.getElementById("additional").value;
     const number = document.getElementById("number").value;
 
-    const { data, error } = await supabase.from("cliente").insert([
-      {
-        nome: name,
-        rua: address,
-        bairro: neighborhood,
-        complemento: additional,
-        numero: number,
-      },
-    ]);
+    name === "" &&
+    address === "" &&
+    neighborhood === "" &&
+    additional === "" &&
+    number === ""
+      ? Swal.fire("Erro!", "Preencha todos os campos.", "error")
+      : regUser();
 
-    Swal.fire("Tudo Certo!", "Cliente cadastrado com sucesso.", "success");
+    async function regUser() {
+      const { data, error } = await supabase.from("cliente").insert([
+        {
+          nome: name,
+          rua: address,
+          bairro: neighborhood,
+          complemento: additional,
+          numero: number,
+        },
+      ]);
+      Swal.fire("Tudo Certo!", "Cliente cadastrado com sucesso.", "success");
+    }
   }
 
   cliente.map((key) => {
     divClients.innerHTML += `<div class="bg-white shadow-md rounded-lg p-4 mb-4 hover:cursor-pointer" onclick="mostrarNome('${key.id}')">
     <div class="flex justify-between items-center">
       <h3 class="text-lg font-semibold text-gray-700">${key.nome}</h3>
-      <p class="text-md font-semibold text-gray-700">${key.bairro}</p>
+      <div class="flex items-center">
+        <p class="text-md font-semibold text-gray-700 " style="margin-right: 0.5rem" >${key.bairro}</p>
+      </div>
     </div>
     <div class="mt-4">
       <p class="text-sm text-gray-500">

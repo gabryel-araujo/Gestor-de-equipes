@@ -7,10 +7,11 @@ initTE({ Modal, Ripple });
 var clientData;
 window.encodeImage = encodeImage;
 
+const SUPABASE_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlbGpvd2J5Ynhqa3Fvb2ZzdmZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODYxNDMwNTksImV4cCI6MjAwMTcxOTA1OX0.97CaBk5mBIg4z13aFLJ0SmkqjJcLby-KYKnTf45S5cA";
+const SUPABASE_URL = "https://deljowbybxjkqoofsvfk.supabase.co";
+
 var clientPromise = new Promise(async function (resolve, reject) {
-  const SUPABASE_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlbGpvd2J5Ynhqa3Fvb2ZzdmZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODYxNDMwNTksImV4cCI6MjAwMTcxOTA1OX0.97CaBk5mBIg4z13aFLJ0SmkqjJcLby-KYKnTf45S5cA";
-  const SUPABASE_URL = "https://deljowbybxjkqoofsvfk.supabase.co";
   const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
   let { data: cliente, error } = await supabase.from("cliente").select("*");
   resolve(cliente);
@@ -24,10 +25,11 @@ clientPromise.then((clientData) => {
 //Referencia dados de outra página
 const urlParams = new URLSearchParams(window.location.search);
 const nomeCliente = urlParams.get("nome");
-var inputFile = document.getElementById("formFile");
 const searchBar = document.getElementById("searchBar");
 const saveCanvas = document.getElementById("saveCanvas");
 const saveButton = document.getElementById("save");
+const deleteClient = document.getElementById("deleteClient");
+var inputFile = document.getElementById("formFile");
 var imgData = [];
 var signatureImg = "";
 var formatedAddress = "";
@@ -228,3 +230,35 @@ async function generatePDF() {
 // });
 
 saveButton.addEventListener("click", generatePDF);
+
+//Deletar cliente
+function deleteClientData() {
+  Swal.fire({
+    title: "Deseja deletar?",
+    text: `Após a confirmação o cliente ${nomeCliente.toUpperCase()} será apagado`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sim, deletar!",
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+      const { data, error } = await supabase
+        .from("cliente")
+        .delete()
+        .eq("nome", `${nomeCliente}`);
+
+      Swal.fire(
+        "Deletado!",
+        "Este cliente foi removido da base de dados ",
+        "success"
+      );
+      setTimeout(() => {
+        window.location.href = "clientList.html";
+      }, 1500);
+    }
+  });
+}
+
+deleteClient.addEventListener("click", deleteClientData);
