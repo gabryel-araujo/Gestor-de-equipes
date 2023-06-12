@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       <h3 class="text-lg font-semibold text-gray-700">${key.nome}</h3>
       <div class="flex items-center">
         <p class="text-md font-semibold text-gray-700 " style="margin-right: 0.5rem" >${key.bairro}</p>
+        <a href="/src/html/updateClient.html?nome=${key.id}"><i class="fa-solid fa-pencil"></i></a>
       </div>
     </div>
     <div class="mt-4">
