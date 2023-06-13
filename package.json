@@ -15,8 +15,11 @@
     "vite": "^4.3.9"
   },
   "dependencies": {
+    "@emailjs/browser": "^3.11.0",
     "@supabase/supabase-js": "^2.24.0",
     "jspdf": "^2.5.1",
+    "nodemailer": "^6.9.3",
+    "sib-api-v3-sdk": "^8.5.0",
     "sweetalert2": "^11.7.10",
     "tw-elements": "^1.0.0-beta2"
   }
