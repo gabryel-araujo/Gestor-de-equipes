@@ -5,23 +5,6 @@ import { createClient } from "@supabase/supabase-js";
 initTE({ Modal, Ripple });
 
 var clientData;
-window.encodeImage = encodeImage;
-
-const SUPABASE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlbGpvd2J5Ynhqa3Fvb2ZzdmZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODYxNDMwNTksImV4cCI6MjAwMTcxOTA1OX0.97CaBk5mBIg4z13aFLJ0SmkqjJcLby-KYKnTf45S5cA";
-const SUPABASE_URL = "https://deljowbybxjkqoofsvfk.supabase.co";
-
-var clientPromise = new Promise(async function (resolve, reject) {
-  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-  let { data: cliente, error } = await supabase.from("cliente").select("*");
-  resolve(cliente);
-  clientData = cliente;
-});
-
-clientPromise.then((clientData) => {
-  console.log(clientData);
-});
-
 //Referencia dados de outra página
 const urlParams = new URLSearchParams(window.location.search);
 const nomeCliente = urlParams.get("nome");
@@ -29,10 +12,24 @@ const searchBar = document.getElementById("searchBar");
 const saveCanvas = document.getElementById("saveCanvas");
 const saveButton = document.getElementById("save");
 const deleteClient = document.getElementById("deleteClient");
+const mobileSearch = document.getElementById("mobileSearch");
 var inputFile = document.getElementById("formFile");
 var imgData = [];
 var signatureImg = "";
 var formatedAddress = "";
+
+window.encodeImage = encodeImage;
+
+const SUPABASE_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlbGpvd2J5Ynhqa3Fvb2ZzdmZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODYxNDMwNTksImV4cCI6MjAwMTcxOTA1OX0.97CaBk5mBIg4z13aFLJ0SmkqjJcLby-KYKnTf45S5cA";
+const SUPABASE_URL = "https://deljowbybxjkqoofsvfk.supabase.co";
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+var clientPromise = new Promise(async function (resolve, reject) {
+  let { data: cliente, error } = await supabase.from("cliente").select("*");
+  resolve(cliente);
+  clientData = cliente;
+});
 
 //Função para buscar o endereço do cliente
 async function getAddress() {
@@ -43,6 +40,16 @@ async function getAddress() {
         : null;
     });
   });
+}
+
+mobileSearch.addEventListener("keyup", findClient);
+
+async function findClient() {
+  let { data: cliente, error } = await supabase
+    .from("cliente")
+    .select("*")
+    .ilike("nome", `%${mobileSearch.value}%`);
+  console.log(cliente);
 }
 
 // Exibir o nome do cliente na página
@@ -159,9 +166,6 @@ async function generatePDF() {
   const year = String(data.getFullYear());
   const formatedData = `${day}/${month}/${year}`;
 
-  //aba para criação de funções que serão utilizadas
-  // console.log(nomeCliente);
-
   //Aba de criação e estruturação do pdf
   //Cabeçalho do PDF
   doc.addImage(urlImage, "PNG", 10, 10, 50, 10); // x, y, width, height
@@ -225,10 +229,6 @@ async function generatePDF() {
   //fim do pdf
 }
 
-// searchBar.addEventListener("focus", function () {
-//   // Swal.fire("Voce clicou", "No botão de pesquisa", "success");
-// });
-
 saveButton.addEventListener("click", generatePDF);
 
 //Deletar cliente
@@ -260,5 +260,7 @@ function deleteClientData() {
     }
   });
 }
+
+// document.addEventListener("DOMContentLoaded", () => {});
 
 deleteClient.addEventListener("click", deleteClientData);
