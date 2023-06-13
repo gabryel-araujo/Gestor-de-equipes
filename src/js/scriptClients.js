@@ -13,10 +13,15 @@ const saveCanvas = document.getElementById("saveCanvas");
 const saveButton = document.getElementById("save");
 const deleteClient = document.getElementById("deleteClient");
 const mobileSearch = document.getElementById("mobileSearch");
+const divClients = document.getElementById("divClient");
 var inputFile = document.getElementById("formFile");
 var imgData = [];
 var signatureImg = "";
 var formatedAddress = "";
+
+// Exibir o nome do cliente na página
+const clienteNomeElement = document.getElementById("nomeCliente");
+nomeCliente != null ? (clienteNomeElement.innerHTML = nomeCliente) : null;
 
 window.encodeImage = encodeImage;
 
@@ -43,18 +48,47 @@ async function getAddress() {
 }
 
 mobileSearch.addEventListener("keyup", findClient);
+document.addEventListener("DOMContentLoaded", findClient);
 
 async function findClient() {
   let { data: cliente, error } = await supabase
     .from("cliente")
     .select("*")
-    .ilike("nome", `%${mobileSearch.value}%`);
-  console.log(cliente);
-}
+    .ilike("nome", `%${mobileSearch.value}%`)
+    .order("nome", { ascending: true });
+  divClients.innerHTML = "";
+  cliente.map((client) => {
+    divClients.innerHTML += `<div class="bg-white shadow-md rounded-lg p-4 mb-4 hover:cursor-pointer" onclick="mostrarNome('${client.id}')">
+  <div class="flex justify-between items-center">
+    <h3 class="text-lg font-semibold text-gray-700">${client.nome}</h3>
+    <div class="flex items-center">
+      <p class="text-md font-semibold text-gray-700 " style="margin-right: 0.5rem" >${client.bairro}</p>
+      <a href="/src/html/updateClient.html?nome=${client.id}"><i class="fa-solid fa-pencil"></i></a>
+    </div>
+  </div>
+  <div class="mt-4">
+    <p class="text-sm text-gray-500">
+      <span class="font-bold">Endereço: </span> ${client.rua}
+    </p>
+    <p class="text-sm text-gray-500">
+      <span class="font-bold">Número: </span> ${client.numero}
+    </p>
+    <p class="text-sm text-gray-500">
+      <span class="font-bold">Complemento:</span> ${client.complemento}
+    </p>
+  </div>
+</div>`;
+  });
 
-// Exibir o nome do cliente na página
-const clienteNomeElement = document.getElementById("nomeCliente");
-clienteNomeElement.innerHTML = nomeCliente;
+  function mostrarNome(idCliente) {
+    for (let clients of cliente) {
+      if (clients.id == idCliente) {
+        const nomeCliente = encodeURIComponent(clients.nome);
+        window.location.href = `/src/html/relatorioCliente.html?nome=${nomeCliente}`;
+      }
+    }
+  }
+}
 
 //Coletar dados do formulário ou tags que sejam necessárias
 const description = document.getElementById("description");
