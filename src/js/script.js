@@ -47,30 +47,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // cliente.map((key) => {
-  //   divClients.innerHTML += `<div class="bg-white shadow-md rounded-lg p-4 mb-4 hover:cursor-pointer" onclick="mostrarNome('${key.id}')">
-  //   <div class="flex justify-between items-center">
-  //     <h3 class="text-lg font-semibold text-gray-700">${key.nome}</h3>
-  //     <div class="flex items-center">
-  //       <p class="text-md font-semibold text-gray-700 " style="margin-right: 0.5rem" >${key.bairro}</p>
-  //       <a href="/src/html/updateClient.html?nome=${key.id}"><i class="fa-solid fa-pencil"></i></a>
-  //     </div>
-  //   </div>
-  //   <div class="mt-4">
-  //     <p class="text-sm text-gray-500">
-  //       <span class="font-bold">Endereço: </span> ${key.rua}
-  //     </p>
-  //     <p class="text-sm text-gray-500">
-  //       <span class="font-bold">Número: </span> ${key.numero}
-  //     </p>
-  //     <p class="text-sm text-gray-500">
-  //       <span class="font-bold">Complemento:</span> ${key.complemento}
-  //     </p>
-
-  //   </div>
-  // </div>`;
-  // });
-
   function mostrarNome(idCliente) {
     for (let client of cliente) {
       if (client.id == idCliente) {

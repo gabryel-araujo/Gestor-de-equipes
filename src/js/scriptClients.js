@@ -2,6 +2,7 @@ import { jsPDF } from "jspdf";
 import Swal from "sweetalert2";
 import { Modal, Ripple, initTE } from "tw-elements";
 import { createClient } from "@supabase/supabase-js";
+import emailjs from "@emailjs/browser";
 initTE({ Modal, Ripple });
 
 var clientData;
@@ -47,7 +48,9 @@ async function getAddress() {
   });
 }
 
-mobileSearch.addEventListener("keyup", findClient);
+if (mobileSearch) {
+  mobileSearch.addEventListener("keyup", findClient);
+}
 document.addEventListener("DOMContentLoaded", findClient);
 
 async function findClient() {
@@ -79,15 +82,6 @@ async function findClient() {
   </div>
 </div>`;
   });
-
-  function mostrarNome(idCliente) {
-    for (let clients of cliente) {
-      if (clients.id == idCliente) {
-        const nomeCliente = encodeURIComponent(clients.nome);
-        window.location.href = `/src/html/relatorioCliente.html?nome=${nomeCliente}`;
-      }
-    }
-  }
 }
 
 //Coletar dados do formulário ou tags que sejam necessárias
@@ -189,7 +183,26 @@ function encodeImage() {
     reader.readAsDataURL(file);
   }
 }
+//Função para enviar o pdf para o email cadastrado
+function sendEmail(arquivoPdf) {
+  emailjs.init("nFsekF5kfD-QIXzW3");
+  emailjs
+    .send("service_360zyo6", "template_ixynw5l", {
+      to_name: "Nome do destinatário",
+      from_name: "Seu nome",
+      message: `Link para o pdf gerado: ${arquivoPdf}`,
+    })
+    .then(
+      function (response) {
+        console.log("E-mail enviado com sucesso!", response);
+      },
+      function (error) {
+        console.error("Erro ao enviar e-mail:", error);
+      }
+    );
+}
 
+//Função para gerar o PDF
 async function generatePDF() {
   const doc = new jsPDF();
   const urlImage = "/logo-hifi-preto-menor.png";
@@ -256,9 +269,17 @@ async function generatePDF() {
   doc.text("Assinado por: ", 160, 275);
   doc.addImage(signatureImg, 150, 280, 60, 10);
 
+  //Capturando o link do PDF pelo supabase
+
+  const { data: pdfSupa } = supabase.storage
+    .from("file-bucket")
+    .getPublicUrl(`pdf/arquivo`);
+  console.log(pdfSupa.publicUrl);
+
   const pdfData = doc.output("blob");
   const pdfUrl = URL.createObjectURL(pdfData);
   window.open(pdfUrl);
+  sendEmail(pdfSupa.publicUrl);
 
   //fim do pdf
 }
