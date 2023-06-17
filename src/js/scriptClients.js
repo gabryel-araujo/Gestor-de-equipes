@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import { Modal, Ripple, initTE } from "tw-elements";
 import { createClient } from "@supabase/supabase-js";
 import emailjs from "@emailjs/browser";
+import { decode } from "base64-arraybuffer";
 initTE({ Modal, Ripple });
 
 var clientData;
@@ -188,9 +189,9 @@ function sendEmail(arquivoPdf) {
   emailjs.init("nFsekF5kfD-QIXzW3");
   emailjs
     .send("service_360zyo6", "template_ixynw5l", {
-      to_name: "Nome do destinatário",
-      from_name: "Seu nome",
-      message: `Link para o pdf gerado: ${arquivoPdf}`,
+      to_name: "HiFi Equipes",
+      from_name: "HiFi Gestor de Equipes",
+      message: `Link para o relatório de visita gerado em PDF: ${arquivoPdf}`,
     })
     .then(
       function (response) {
@@ -200,6 +201,12 @@ function sendEmail(arquivoPdf) {
         console.error("Erro ao enviar e-mail:", error);
       }
     );
+}
+
+//Função para gerar um nome aleatório para o arquivo pdf
+function generateRandomName() {
+  const randomName = Math.random().toString(36).substring(2, 15);
+  return randomName;
 }
 
 //Função para gerar o PDF
@@ -212,6 +219,7 @@ async function generatePDF() {
   const month = String(data.getMonth() + 1).padStart(2, "0"); //Janeiro é 0!
   const year = String(data.getFullYear());
   const formatedData = `${day}/${month}/${year}`;
+  var indexador = 0;
 
   //Aba de criação e estruturação do pdf
   //Cabeçalho do PDF
@@ -250,36 +258,61 @@ async function generatePDF() {
   //Imagens adicionadas ao pdf
   encodeImage();
   for (var i = 0; i < imgData.length; i++) {
-    doc.addImage(imgData[i], "PNG", 15 + i * 65, 60, 30, 45); // x, y, width, height
+    if (i > 4) {
+      doc.addImage(imgData[i], "PNG", 15 + indexador * 35, 110, 30, 45); // x, y, width, height
+      indexador++;
+    } else if (i <= 4) {
+      doc.addImage(imgData[i], "PNG", 15 + i * 35, 60, 30, 45); // x, y, width, height
+    }
   }
 
   //Descrição da visita
   doc.setFont("helvetica", "bolditalic");
-  doc.text(`Descrição da visita:`, 10, 155);
+  doc.text(`Descrição da visita:`, 10, 165);
   doc.setFont("helvetica", "normal");
 
   const textoQuebrado = doc.splitTextToSize(description.value, 180);
 
   textoQuebrado.map((key, index) => {
-    doc.text(key, 15, 160 + index * 5);
+    doc.text(key, 15, 170 + index * 5);
   });
 
   //Assinatura do cliente
-
   doc.text("Assinado por: ", 160, 275);
   doc.addImage(signatureImg, 150, 280, 60, 10);
 
-  //Capturando o link do PDF pelo supabase
-
-  const { data: pdfSupa } = supabase.storage
-    .from("file-bucket")
-    .getPublicUrl(`pdf/arquivo`);
-  console.log(pdfSupa.publicUrl);
-
+  // const pdfData = doc.output("dataurlstring");
+  //convertendo o pdf para blob
   const pdfData = doc.output("blob");
-  const pdfUrl = URL.createObjectURL(pdfData);
-  window.open(pdfUrl);
+  //convertendo para base 64 o arquivo blob usando o newFileReader
+  function blobToBase64(blob) {
+    return new Promise((resolve, _) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
+  var teste = await blobToBase64(pdfData);
+
+  // console.log("pdfData", teste);
+  var fileName = generateRandomName();
+
+  const { data: file, error } = await supabase.storage
+    .from("file-bucket")
+    .upload(`pdf/${fileName}.pdf`, decode(teste));
+
+  if (error) {
+    console.log("Erro ao enviar o pdf", error);
+  } else {
+    console.log("deu certo", file);
+  }
+
+  const { data: pdfSupa } = await supabase.storage
+    .from("file-bucket")
+    .getPublicUrl(`pdf/${fileName}.pdf`);
   sendEmail(pdfSupa.publicUrl);
+
+  Swal.fire("Deu certo!", "Seu relatório foi enviado com sucesso!", "success");
 
   //fim do pdf
 }
