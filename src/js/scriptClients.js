@@ -13,7 +13,6 @@ const nomeCliente = urlParams.get("nome");
 const searchBar = document.getElementById("searchBar");
 const saveCanvas = document.getElementById("saveCanvas");
 const saveButton = document.getElementById("save");
-const deleteClient = document.getElementById("deleteClient");
 const mobileSearch = document.getElementById("mobileSearch");
 const divClients = document.getElementById("divClient");
 var inputFile = document.getElementById("formFile");
@@ -318,37 +317,3 @@ async function generatePDF() {
 }
 
 saveButton.addEventListener("click", generatePDF);
-
-//Deletar cliente
-function deleteClientData() {
-  Swal.fire({
-    title: "Deseja deletar?",
-    text: `Após a confirmação o cliente ${nomeCliente.toUpperCase()} será apagado`,
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Sim, deletar!",
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-      const { data, error } = await supabase
-        .from("cliente")
-        .delete()
-        .eq("nome", `${nomeCliente}`);
-
-      Swal.fire(
-        "Deletado!",
-        "Este cliente foi removido da base de dados ",
-        "success"
-      );
-      setTimeout(() => {
-        window.location.href = "clientList.html";
-      }, 1500);
-    }
-  });
-}
-
-// document.addEventListener("DOMContentLoaded", () => {});
-
-deleteClient.addEventListener("click", deleteClientData);

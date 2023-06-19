@@ -6,6 +6,8 @@ const address = document.getElementById("address");
 const neighborhood = document.getElementById("neighborhood");
 const additional = document.getElementById("additional");
 const number = document.getElementById("number");
+const deleteClient = document.getElementById("deleteClient");
+var nomeCliente = "";
 
 const SUPABASE_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlbGpvd2J5Ynhqa3Fvb2ZzdmZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODYxNDMwNTksImV4cCI6MjAwMTcxOTA1OX0.97CaBk5mBIg4z13aFLJ0SmkqjJcLby-KYKnTf45S5cA";
@@ -28,6 +30,47 @@ clientPromise.then(function (result) {
       : null;
   });
 });
+
+clientPromise.then(function (result) {
+  result.map((key) => {
+    key.id.toString() === window.location.search.split("=")[1]
+      ? ((nomeCliente = key.nome), console.log(nomeCliente))
+      : null;
+  });
+});
+
+//Deletar cliente
+
+function deleteClientData() {
+  Swal.fire({
+    title: "Deseja deletar?",
+    text: `Após a confirmação o cliente ${nomeCliente.toUpperCase()} será apagado`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sim, deletar!",
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+      const { data, error } = await supabase
+        .from("cliente")
+        .delete()
+        .eq("nome", `${nomeCliente}`);
+
+      Swal.fire(
+        "Deletado!",
+        "Este cliente foi removido da base de dados ",
+        "success"
+      );
+      setTimeout(() => {
+        window.location.href = "clientList.html";
+      }, 1500);
+    }
+  });
+}
+
+deleteClient.addEventListener("click", deleteClientData);
 
 window.validateUser = validateUser;
 

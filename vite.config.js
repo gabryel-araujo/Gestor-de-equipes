@@ -11,7 +11,7 @@ export default ({ mode }) => {
     // To access env vars here use process.env.TEST_VAR
     // To access env vars in your application use import.meta.env.VITE_TEST_VAR
     server: {
-      host: "192.168.0.152",
+      host: "localhost",
       port: 3000,
     },
   });
