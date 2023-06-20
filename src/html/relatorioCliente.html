@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="h-screen bg-gray-100">
+<html lang="pt-BR" class="h-screen bg-gray-100 dark:bg-zinc-800">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -19,23 +19,20 @@
       crossorigin="anonymous"
     ></script>
   </head>
-  <body class="p-2">
-    <div class="flex h-full bg-gray-100">
+  <body class="p-2 dark:bg-zinc-800">
+    <div class="flex h-full bg-gray-100 dark:bg-zinc-800">
       <div class="m-auto">
-        <a href="clientList.html" class="mb-4">
-          <i class="fa-solid fa-arrow-left p-4 text-xl"></i>
-        </a>
         <div>
           <label
-            class="relative w-full flex justify-center items-center px-5 py-2.5 font-medium tracking-wide text-white capitalize bg-black rounded-md focus:outline-none transition duration-300 transform active:scale-95 ease-in-out"
+            class="relative w-full flex justify-center items-center px-5 py-2.5 font-medium tracking-wide text-white capitalize bg-black rounded-md focus:outline-none transition duration-300 transform active:scale-95 ease-in-out dark:bg-zinc-900"
           >
             <span class="pl-2 mx-1">Gerar Relatório de Visita</span>
           </label>
-          <div class="mt-5 bg-white rounded-lg shadow-md">
+          <div class="mt-5 bg-white rounded-lg shadow-md dark:bg-zinc-900">
             <div class="flex">
               <div class="flex-1 py-5 pl-5 overflow-hidden">
                 <svg
-                  class="inline align-text-top"
+                  class="inline align-text-top dark:fill-white"
                   height="24px"
                   viewBox="0 0 24 24"
                   width="24px"
@@ -62,7 +59,7 @@
                   </g>
                 </svg>
                 <h1
-                  class="inline text-2xl font-semibold leading-none"
+                  class="inline text-2xl font-semibold leading-none dark:text-white"
                   id="nomeCliente"
                 ></h1>
               </div>
@@ -72,12 +69,14 @@
                 class="flex flex-col relative max-w-sm w-full rounded-lg overflow-hidden mx-auto"
                 x-data="{maximum: ''}"
               >
-                <h2 class="font-bold mb-1 text-gray-700 block">
+                <h2
+                  class="font-bold mb-1 text-gray-700 block dark:text-slate-100"
+                >
                   Descrição da Visita
                 </h2>
                 <textarea
                   id="description"
-                  class="description bg-gray-90 sec p-3 h-60 border border-gray-700 outline-none rounded-md"
+                  class="description bg-gray-90 sec p-3 h-60 border border-gray-700 outline-none rounded-md dark:bg-zinc-800 dark:placeholder-slate-100 dark:text-white"
                   spellcheck="false"
                   placeholder="Descreva aqui todos os detalhes da visita."
                 ></textarea>
@@ -92,12 +91,13 @@
                     onchange="encodeImage()"
                   />
                   <section class="mt-4">
-                    <span class="font-bold text-gray-700 block"
+                    <span
+                      class="font-bold text-gray-700 block dark:text-slate-100"
                       >Técnico Responsável:</span
                     >
                     <select
                       data-te-select-init
-                      class="w-full h-9 border border-gray-700 rounded-md"
+                      class="w-full h-9 border border-gray-700 rounded-md dark:bg-zinc-800 dark:placeholder-slate-100 dark:text-white"
                       id="technician"
                     >
                       <option value="">Selecione...</option>
