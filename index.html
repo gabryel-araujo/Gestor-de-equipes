@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="src/css/main.css" />
     <title>HiFi Equipes</title>
   </head>
-  <body class="bg-gray-100">
-    <nav class="border-gray-200 px-2 mt-3">
+  <body class="bg-gray-100 dark:bg-zinc-800">
+    <nav class="border-gray-200 px-2 mt-3 dark:bg-zinc-800">
       <div
         class="container mx-auto flex flex-wrap items-center justify-between"
       >
@@ -17,10 +17,15 @@
           <img
             src="/icone-hifi.png"
             alt="logo esférico com duas letras H"
-            class="w-10 h-10"
+            class="w-10 h-10 dark:hidden block"
+          />
+          <img
+            src="/logo-branco.png"
+            alt="logo esférico com duas letras H"
+            class="w-10 h-10 dark:block hidden"
           />
           <span
-            class="self-center text-lg font-semibold whitespace-nowrap px-2 font-helvetica"
+            class="self-center text-lg font-semibold whitespace-nowrap px-2 font-helvetica dark:text-white"
             >HiFi Equipes</span
           >
         </a>
@@ -58,7 +63,7 @@
           >
             <span class="sr-only">Open main menu</span>
             <svg
-              class="w-6 h-6"
+              class="w-8 h-8 dark:text-white"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +98,7 @@
             <li>
               <a
                 href="#"
-                class="md:bg-transparent text-gray-700 block pl-3 pr-4 py-2 md:underline md:p-0 rounded text-xl"
+                class="md:bg-transparent text-gray-700 block pl-3 pr-4 py-2 md:underline md:p-0 rounded text-xl dark:text-white dark:bg-zinc-900"
                 aria-current="page"
                 >Home</a
               >
@@ -101,7 +106,7 @@
             <li>
               <a
                 href="src/html/clientList.html"
-                class="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:underline md:p-0 text-xl"
+                class="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:underline md:p-0 text-xl dark:text-white dark:bg-zinc-900 my-2"
                 >Lista de clientes</a
               >
             </li>
@@ -109,11 +114,11 @@
         </div>
       </div>
     </nav>
-    <div class="flex h-screen bg-gray-100 p-4">
+    <div class="flex h-screen bg-gray-100 dark:bg-zinc-800 p-4">
       <div class="m-auto">
         <div>
           <label
-            class="relative w-full flex justify-center items-center px-5 py-2.5 font-medium tracking-wide text-white capitalize bg-black rounded-md focus:outline-none transition duration-300 transform active:scale-95 ease-in-out"
+            class="relative w-full flex justify-center items-center px-5 py-2.5 font-medium tracking-wide text-white capitalize bg-black rounded-md focus:outline-none transition duration-300 transform active:scale-95 ease-in-out dark:bg-zinc-900"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -134,11 +139,11 @@
             </svg>
             <span class="pl-2 mx-1">Cadastrar novo cliente</span>
           </label>
-          <div class="mt-5 bg-white rounded-lg shadow">
+          <div class="mt-5 bg-white rounded-lg shadow dark:bg-zinc-900">
             <div class="flex">
               <div class="flex-1 py-5 pl-5 overflow-hidden">
                 <svg
-                  class="inline align-text-top"
+                  class="inline align-text-top dark:fill-white"
                   height="24px"
                   viewBox="0 0 24 24"
                   width="24px"
@@ -164,7 +169,9 @@
                     ></circle>
                   </g>
                 </svg>
-                <h1 class="inline text-2xl font-semibold leading-none">
+                <h1
+                  class="inline text-2xl font-semibold leading-none dark:text-white"
+                >
                   Dados
                 </h1>
               </div>
@@ -174,33 +181,33 @@
                 id="name"
                 type="text"
                 placeholder="Nome"
-                class="text-black placeholder-gray-600 w-full px-4 py-2.5 mt-2 transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200 focus:border-blueGray-500 focus:bg-gray-400 dark:focus:bg-gray-400 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400"
+                class="text-black placeholder-gray-600 dark:placeholder-white w-full px-4 py-2.5 mt-2 transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200 focus:border-blueGray-500 focus:bg-gray-400 dark:focus:bg-zinc-600 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400 dark:bg-zinc-800 dark:text-white"
               />
               <input
                 id="address"
                 placeholder="Endereço"
-                class="text-black placeholder-gray-600 w-full px-4 py-2.5 mt-2 text-base transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200 focus:border-blueGray-500 focus:bg-gray-400 dark:focus:bg-gray-400 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400"
+                class="text-black placeholder-gray-600 dark:placeholder-white w-full px-4 py-2.5 mt-2 text-base transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200 focus:border-blueGray-500 focus:bg-gray-400 dark:focus:bg-zinc-600 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400 dark:text-white dark:bg-zinc-800"
               />
               <div class="flex">
-                <div class="flex-grow pr-2 w-1/6">
+                <div class="flex-grow pr-2 w-3/12">
                   <input
                     id="number"
                     placeholder="N°"
-                    class="text-black placeholder-gray-600 w-full px-4 py-2.5 mt-2 text-base transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200 focus:border-blueGray-500 focus:bg-gray-400 dark:focus:bg-gray-400 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400"
+                    class="text-black placeholder-gray-600 w-full px-3 py-2.5 mt-2 text-base transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200 focus:border-blueGray-500 focus:bg-gray-400 dark:focus:bg-gray-400 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400 dark:placeholder-white dark:focus:bg-zinc-600 dark:text-white dark:bg-zinc-800"
                   />
                 </div>
                 <div class="flex-grow w-1/2 pr-2">
                   <input
                     id="additional"
                     placeholder="Complemento"
-                    class="text-black placeholder-gray-600 w-full px-4 py-2.5 mt-2 text-base transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200 focus:border-blueGray-500 focus:bg-gray-400 dark:focus:bg-gray-400 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400"
+                    class="text-black placeholder-gray-600 w-full px-4 py-2.5 mt-2 text-base transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200 focus:border-blueGray-500 focus:bg-gray-400 dark:focus:bg-gray-400 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400 dark:placeholder-white dark:focus:bg-zinc-600 dark:text-white dark:bg-zinc-800"
                   />
                 </div>
-                <div class="flex-grow w-1/4 pr-2">
+                <div class="flex-grow w-2/4">
                   <input
                     id="neighborhood"
                     placeholder="Bairro"
-                    class="text-black placeholder-gray-600 w-full px-4 py-2.5 mt-2 text-base transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200 focus:border-blueGray-500 focus:bg-gray-400 dark:focus:bg-gray-400 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400"
+                    class="text-black placeholder-gray-600 w-full px-4 py-2.5 mt-2 text-base transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200 focus:border-blueGray-500 focus:bg-gray-400 dark:focus:bg-gray-400 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400 dark:placeholder-white dark:focus:bg-zinc-600 dark:text-white dark:bg-zinc-800"
                   />
                 </div>
               </div>
@@ -213,7 +220,7 @@
                 id="save"
                 type="button"
                 onclick="validateFields()"
-                class="flex items-center px-5 py-2.5 font-medium tracking-wide text-white capitalize bg-black rounded-md hover:bg-gray-800 focus:outline-none focus:bg-gray-900 transition duration-300 transform active:scale-95 ease-in-out"
+                class="flex items-center px-5 py-2.5 font-medium tracking-wide text-white capitalize bg-black rounded-md hover:bg-gray-800 focus:outline-none focus:bg-gray-900 transition duration-300 transform active:scale-95 ease-in-out dark:bg-zinc-900 dark:hover:bg-gray-700"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
