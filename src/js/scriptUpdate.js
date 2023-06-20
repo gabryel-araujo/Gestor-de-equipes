@@ -94,10 +94,10 @@ async function validateUser() {
       .from("cliente")
       .update([
         {
-          nome: name,
-          rua: address,
-          bairro: neighborhood,
-          complemento: additional,
+          nome: name.toUpperCase(),
+          rua: address.toUpperCase(),
+          bairro: neighborhood.toUpperCase(),
+          complemento: additional.toUpperCase(),
           numero: number,
         },
       ])
