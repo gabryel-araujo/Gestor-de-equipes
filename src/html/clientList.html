@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../css/main.css" />
     <title>HiFi Equipes</title>
   </head>
-  <body class="bg-gray-100 overflow-scroll gap-3">
+  <body class="bg-gray-100 overflow-scroll gap-3 dark:bg-zinc-800">
     <nav class="border-gray-200 px-2 mt-3">
       <div
         class="container mx-auto flex flex-wrap items-center justify-between"
@@ -22,10 +22,15 @@
           <img
             src="/icone-hifi.png"
             alt="logo esférico com duas letras H"
-            class="w-10 h-10"
+            class="w-10 h-10 dark:hidden block"
+          />
+          <img
+            src="/logo-branco.png"
+            alt="logo esférico com duas letras H"
+            class="w-10 h-10 dark:block hidden"
           />
           <span
-            class="self-center text-lg font-semibold whitespace-nowrap px-2 font-helvetica"
+            class="self-center text-lg font-semibold whitespace-nowrap px-2 font-helvetica dark:text-white"
             >HiFi Equipes</span
           >
         </a>
@@ -63,7 +68,7 @@
           >
             <span class="sr-only">Open main menu</span>
             <svg
-              class="w-6 h-6"
+              class="w-8 h-8 dark:text-white"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +103,7 @@
             <li>
               <a
                 href="../../index.html"
-                class="md:bg-transparent text-gray-700 block pl-3 pr-4 py-2 md:p-0 rounded text-xl md:hover:underline"
+                class="md:bg-transparent text-gray-700 block pl-3 pr-4 py-2 md:p-0 rounded text-xl md:hover:underline dark:text-white"
                 aria-current="page"
                 >Home</a
               >
@@ -106,7 +111,7 @@
             <li>
               <a
                 href="src/html/clientList.html"
-                class="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:p-0 text-xl md:underline"
+                class="text-gray-700 hover:bg-gray-50 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:p-0 text-xl md:underline dark:text-white"
                 >Lista de clientes</a
               >
             </li>
@@ -130,7 +135,7 @@
                 </div>
                 <input
                   id="mobileSearch"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2 ml-2 dark:bg-zinc-900 dark:text-white dark:placeholder-white dark:border-black"
                   placeholder="Insira um nome..."
                 />
               </div>
@@ -141,14 +146,10 @@
     </nav>
 
     <main class="container lg:max-w-screen-lg mx-auto mt-10 p-4 gap-3">
-      <a href="../../index.html"
-        ><i class="fa-solid fa-arrow-left p-4 text-xl"></i
-      ></a>
       <div id="divClient"></div>
     </main>
 
     <!-- Script sources -->
-
     <script src="/src/js/script.js" type="module"></script>
     <script src="/src/js/scriptClients.js" type="module"></script>
     <script
