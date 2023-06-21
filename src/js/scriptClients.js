@@ -61,7 +61,7 @@ async function findClient() {
     .order("nome", { ascending: true });
   divClients.innerHTML = "";
   cliente.map((client) => {
-    divClients.innerHTML += `<div class="bg-white shadow-md rounded-lg p-4 mb-4 hover:cursor-pointer" onclick="mostrarNome('${client.id}')">
+    divClients.innerHTML += `<div class="bg-white shadow-md rounded-lg p-4 mb-5 hover:cursor-pointer" onclick="mostrarNome('${client.id}')">
   <div class="flex justify-between items-center">
     <h3 class="text-lg font-semibold text-gray-700">${client.nome}</h3>
     <div class="flex items-center">
