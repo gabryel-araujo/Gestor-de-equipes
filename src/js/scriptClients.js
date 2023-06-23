@@ -294,6 +294,7 @@ async function generatePDF() {
   var teste = await blobToBase64(pdfData);
 
   // console.log("pdfData", teste);
+  Swal.fire("Deu certo!", "Seu relatório foi enviado com sucesso!", "success");
   var fileName = generateRandomName();
 
   const { data: file, error } = await supabase.storage
@@ -309,9 +310,7 @@ async function generatePDF() {
   const { data: pdfSupa } = await supabase.storage
     .from("file-bucket")
     .getPublicUrl(`pdf/${fileName}.pdf`);
-  sendEmail(pdfSupa.publicUrl);
-
-  Swal.fire("Deu certo!", "Seu relatório foi enviado com sucesso!", "success");
+  // sendEmail(pdfSupa.publicUrl);
 
   //fim do pdf
 }
