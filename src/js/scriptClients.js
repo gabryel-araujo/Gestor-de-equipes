@@ -19,6 +19,8 @@ var inputFile = document.getElementById("formFile");
 var imgData = [];
 var signatureImg = "";
 var formatedAddress = "";
+var imageWidth = [];
+var imageHeight = [];
 
 // Exibir o nome do cliente na página
 const clienteNomeElement = document.getElementById("nomeCliente");
@@ -168,6 +170,25 @@ window.addEventListener("load", () => {
   });
 });
 
+//Identificando a orientação da imagem enviada
+inputFile.addEventListener("change", function () {
+  for (var i = 0; i < inputFile.files.length; i++) {
+    const file = inputFile.files[i];
+
+    if (file) {
+      const img = new Image();
+
+      img.onload = function () {
+        imageWidth.push(img.width);
+        imageHeight.push(img.height);
+      };
+      console.log("Dimensões da imagem:", imageWidth[1], "x", imageHeight[1]);
+
+      img.src = URL.createObjectURL(file);
+    }
+  }
+});
+
 //Função para codificar cada imagem do input em base64
 function encodeImage() {
   console.log(inputFile.files.length);
@@ -257,11 +278,14 @@ async function generatePDF() {
   //Imagens adicionadas ao pdf
   encodeImage();
   for (var i = 0; i < imgData.length; i++) {
-    if (i > 4) {
-      doc.addImage(imgData[i], "PNG", 15 + indexador * 35, 110, 30, 45); // x, y, width, height
-      indexador++;
-    } else if (i <= 4) {
-      doc.addImage(imgData[i], "PNG", 15 + i * 35, 60, 30, 45); // x, y, width, height
+    if (i <= 4) {
+      if (imageHeight > imageWidth) {
+        doc.addImage(imgData[i], "PNG", 15 + indexador * 35, 60, 30, 45); // x, y, width, height
+        indexador++;
+      } else {
+        doc.addImage(imgData[i], "PNG", 15 + indexador * 35, 60, 45, 30); // x, y, width, height
+        indexador++;
+      }
     }
   }
 

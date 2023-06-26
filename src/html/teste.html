@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="file" id="teste" />
+    <script>
+      var teste = document.getElementById("teste");
+      teste.addEventListener("change", function () {
+        const file = teste.files[0];
+
+        if (file) {
+          const img = new Image();
+
+          img.onload = function () {
+            const width = img.width;
+            const height = img.height;
+
+            console.log("Dimensões da imagem:", width, "x", height);
+          };
+
+          img.src = URL.createObjectURL(file);
+        }
+      });
+    </script>
+  </body>
+</html>
